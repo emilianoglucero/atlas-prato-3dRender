@@ -17,6 +17,19 @@ import GLTFModal from "../components/GTLFModal";
 //   () => import("../components/GLTFModal"),
 //   { ssr: false }
 // );
+//editable scene
+// import { editable as e, configure } from "react-three-editable";
+
+// // Import your previously exported state
+// import editableState from "./editableState.json";
+
+// const bind = configure({
+//   // Enables persistence in development so your edits aren't discarded when you close the browser window
+//   enablePersistence: true,
+//   // Useful if you use r3e in multiple projects
+//   localStorageNamespace: "Example",
+// });
+//end editable scene
 
 function Loader() {
   const { active, progress, errors, item, loaded, total } = useProgress();
@@ -43,8 +56,31 @@ export default function Home() {
             saturation={0} // Saturation 0-1 (default=0)
             fade // Faded dots (default=false)
           />
-          <mesh ref={ref} scale={[1, 1, 1]} position={[2, -2, -4]}>
-            <Plane args={[1, 2.5]}>
+          {/* A light to help illumnate the spinning boxes */}
+          <pointLight position={[1, 1.3, 1]} intensity={0.5} />
+          <pointLight position={[0, 0, 0]} intensity={0.5} />
+
+          {/* blue wall */}
+          <mesh
+            ref={ref}
+            scale={[1, 0.9, 1]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.94, 0, 0]}
+          >
+            <Plane args={[1, 2.3]}>
+              <meshStandardMaterial attach="material" color="darkslateblue" />
+              {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
+            </Plane>
+          </mesh>
+
+          {/* blue floor */}
+          <mesh
+            ref={ref}
+            scale={[1, 1, 1]}
+            rotation={[11, 0, 1.5]}
+            position={[-0.8, -0.99, 0.08]}
+          >
+            <Plane args={[1, 2.3]}>
               <meshStandardMaterial attach="material" color="darkslateblue" />
               {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
             </Plane>
@@ -104,12 +140,33 @@ export default function Home() {
             rotation={[0.002, 0.01, 0]}
             scale={[0.33, 0.33, 0.33]}
           />
-          <GLTFModal
-            scenePath="/television_wall-mounted/scene.gltf"
-            position={[0, 0, 0]}
-            rotation={[0.002, 0.01, 0]}
-            scale={[0.33, 0.33, 0.33]}
-          />
+          <mesh
+            ref={ref}
+            scale={[2, 2, 2]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.94, 0, 0]}
+          >
+            <GLTFModal
+              scenePath="/television_wall-mounted/scene.gltf"
+              position={[0, 0.15, 0]}
+              rotation={[0, 1.5, 0]}
+              scale={[0.4, 0.4, 0.33]}
+            />
+          </mesh>
+
+          <mesh
+            ref={ref}
+            scale={[2.5, 2.9, 2.3]}
+            rotation={[0, 4.5, 0]}
+            position={[0, -1, 0.14]}
+          >
+            <GLTFModal
+              scenePath="/low_poly_girl/scene.gltf"
+              position={[0, 0, 0]}
+              rotation={[0, 1.5, 0]}
+              scale={[0.33, 0.33, 0.33]}
+            />
+          </mesh>
         </Suspense>
         {/* Allows us to move the canvas around for different prespectives */}
         <OrbitControls />
