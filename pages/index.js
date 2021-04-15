@@ -44,7 +44,7 @@ export default function Home() {
         style={{ width: `100vw`, height: `100vh` }}
         colorManagement
         shadowMap
-        camera={{ position: [-5, 2, 10], fov: 60 }}
+        camera={{ position: [1, 1.5, 1.5], fov: 60 }}
       >
         <Suspense fallback={<Loader />}>
           {/*sistema de estrellas by drei*/}
@@ -86,6 +86,19 @@ export default function Home() {
             </Plane>
           </mesh>
           {/* This mesh is the plane (The floor) */}
+
+          {/* blue wall */}
+          <mesh
+            ref={ref}
+            scale={[1, 0.9, 1]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.94, 0, 0]}
+          >
+            <Plane args={[1, 2.3]}>
+              <meshStandardMaterial attach="material" color="darkslateblue" />
+              {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
+            </Plane>
+          </mesh>
 
           {/* <mesh
             visible // object gets render if true
@@ -134,6 +147,26 @@ export default function Home() {
             />
           </Sphere> */}
 
+          {/* html video */}
+          <mesh
+            ref={ref}
+            scale={[0.5, 0.5, 0.5]}
+            rotation={[0, 0, 0]}
+            position={[0, 3, 1]}
+          >
+            <Html
+              prepend // Project content behind the canvas (default: false)
+              center // Adds a -50%/-50% css transform (default: false) [ignored in transform mode]
+              fullscreen // Aligns to the upper-left corner, fills the screen (default:false) [ignored in transform mode]
+              distanceFactor={10} // If set (default: undefined), children will be scaled by this factor, and also by distance to a PerspectiveCamera / zoom by a OrthographicCamera.
+              zIndexRange={[100, 0]} // Z-order range (default=[16777271, 0])
+              transform // If true, applies matrix3d transformations (default=false)
+              sprite // Renders as sprite, but only in transform mode (default=false)
+            >
+              <h3>ATLAS PRATO</h3>
+            </Html>
+          </mesh>
+
           <GLTFModal
             scenePath="/jannotta_gallery/scene.gltf"
             position={[0, -1, 0]}
@@ -169,7 +202,7 @@ export default function Home() {
           </mesh>
         </Suspense>
         {/* Allows us to move the canvas around for different prespectives */}
-        <OrbitControls />
+        <OrbitControls enableZoom={false} autoRotate={true} />
       </Canvas>
     </>
   );
