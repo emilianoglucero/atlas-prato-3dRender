@@ -1,3 +1,5 @@
+import React from "react";
+import ReactDOM from "react-dom";
 import {
   MeshWobbleMaterial,
   MeshDistortMaterial,
@@ -10,7 +12,8 @@ import {
   MeshL,
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useState } from "react";
+import { PlaneBufferGeometry, VideoTexture } from "three";
 import GLTFModal from "../components/GTLFModal";
 // import dynamic from "next/dynamic";
 // const Galery = dynamic(
@@ -38,6 +41,25 @@ function Loader() {
 
 export default function Home() {
   const ref = useRef();
+  const [video, setVideo] = useState();
+  React.useEffect(() => {
+    setVideo(() => {
+      const vid = document.createElement("video");
+      vid.src = "/AtlasPrato-min.mp4";
+      vid.crossOrigin = "Anonymous";
+      vid.loop = true;
+      vid.play();
+      return vid;
+    });
+  }, []);
+  // const [video] = React.useState(() => {
+  //   const vid = document.createElement("video");
+  //   vid.src = "/public/AtlasPrato.mp4";
+  //   vid.crossOrigin = "Anonymous";
+  //   vid.loop = true;
+  //   vid.play();
+  //   return vid;
+  // });
   return (
     <>
       <Canvas
@@ -59,7 +81,6 @@ export default function Home() {
           {/* A light to help illumnate the spinning boxes */}
           <pointLight position={[1, 1.3, 1]} intensity={0.5} />
           <pointLight position={[0, 0, 0]} intensity={0.5} />
-
           {/* blue wall */}
           <mesh
             ref={ref}
@@ -72,7 +93,6 @@ export default function Home() {
               {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
             </Plane>
           </mesh>
-
           {/* blue floor */}
           <mesh
             ref={ref}
@@ -86,7 +106,6 @@ export default function Home() {
             </Plane>
           </mesh>
           {/* This mesh is the plane (The floor) */}
-
           {/* blue wall */}
           <mesh
             ref={ref}
@@ -99,14 +118,12 @@ export default function Home() {
               {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
             </Plane>
           </mesh>
-
           {/* <mesh
             visible // object gets render if true
             userData={{ test: "hello" }} // An object that can be used to store custom data about the Object3d
             position={[0, 0, 0]} // The position on the canvas of the object [x,y,x]
             rotation={[0, 0, 0]} // The rotation of the object
             castShadow // Sets whether or not the object cats a shadow */}
-
           {/* A spherical shape*/}
           {/* <sphereGeometry attach="geometry" args={[1, 16, 200]} /> */}
           {/* A standard mesh material*/}
@@ -124,7 +141,6 @@ export default function Home() {
           <directionalLight position={[10, 10, 5]} intensity={1} />
           {/*An point light, basically the same as directional. This one points from under */}
           <pointLight position={[0, -10, 5]} intensity={1} />
-
           {/* We can use the drei Sphere which has a simple API. This sphere has a wobble material attached to it */}
           {/* <Sphere visible position={[-3, 0, 0]} args={[1, 16, 200]}>
             <MeshWobbleMaterial
@@ -135,7 +151,6 @@ export default function Home() {
               roughness={0}
             />
           </Sphere> */}
-
           {/* This sphere has a distort material attached to it */}
           {/* <Sphere visible position={[3, 0, 0]} args={[1, 16, 200]}>
             <MeshDistortMaterial
@@ -146,8 +161,7 @@ export default function Home() {
               roughness={0}
             />
           </Sphere> */}
-
-          {/* html video */}
+          {/* title */}
           <mesh
             ref={ref}
             scale={[0.5, 0.5, 0.5]}
@@ -166,7 +180,29 @@ export default function Home() {
               <h3>ATLAS PRATO</h3>
             </Html>
           </mesh>
-
+          {/* html video */}
+          <mesh
+            ref={ref}
+            scale={[0.75, 0.45, 1]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.92, 0.55, 0]}
+          >
+            <planeBufferGeometry args={[1, 1]} />
+            <meshBasicMaterial>
+              <videoTexture attach="map" args={[video]} />
+            </meshBasicMaterial>
+          </mesh>
+          {/* <mesh
+            ref={ref}
+            scale={[0.5, 0.5, 0.5]}
+            rotation={[0, 0, 0]}
+            position={[0, 3, 1]}
+          >
+            <Plane args={[1, 2.3]}>
+              <meshBasicMaterial map={[video]} toneMapped={false} />
+              {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
+          {/* </Plane>
+          </mesh> */}
           <GLTFModal
             scenePath="/jannotta_gallery/scene.gltf"
             position={[0, -1, 0]}
@@ -186,7 +222,6 @@ export default function Home() {
               scale={[0.4, 0.4, 0.33]}
             />
           </mesh>
-
           <mesh
             ref={ref}
             scale={[2.5, 2.9, 2.3]}
@@ -201,8 +236,8 @@ export default function Home() {
             />
           </mesh>
         </Suspense>
-        {/* Allows us to move the canvas around for different prespectives */}
-        <OrbitControls enableZoom={false} autoRotate={true} />
+        {/* autoRotate={true} enableZoom={false}Allows us to move the canvas around for different prespectives */}
+        <OrbitControls autoRotate={true} enableZoom={false} />
       </Canvas>
     </>
   );
