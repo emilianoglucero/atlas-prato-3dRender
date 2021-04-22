@@ -10,29 +10,12 @@ import {
   OrbitControls,
   Plane,
   MeshL,
+  Box,
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useRef, useState } from "react";
 import { PlaneBufferGeometry, VideoTexture } from "three";
 import GLTFModal from "../components/GTLFModal";
-// import dynamic from "next/dynamic";
-// const Galery = dynamic(
-//   () => import("../components/GLTFModal"),
-//   { ssr: false }
-// );
-//editable scene
-// import { editable as e, configure } from "react-three-editable";
-
-// // Import your previously exported state
-// import editableState from "./editableState.json";
-
-// const bind = configure({
-//   // Enables persistence in development so your edits aren't discarded when you close the browser window
-//   enablePersistence: true,
-//   // Useful if you use r3e in multiple projects
-//   localStorageNamespace: "Example",
-// });
-//end editable scene
 
 function Loader() {
   const { active, progress, errors, item, loaded, total } = useProgress();
@@ -45,21 +28,14 @@ export default function Home() {
   React.useEffect(() => {
     setVideo(() => {
       const vid = document.createElement("video");
-      vid.src = "/AtlasPrato-min.mp4";
+      vid.src = "/AtlasPrato.mp4";
       vid.crossOrigin = "Anonymous";
       vid.loop = true;
       vid.play();
       return vid;
     });
   }, []);
-  // const [video] = React.useState(() => {
-  //   const vid = document.createElement("video");
-  //   vid.src = "/public/AtlasPrato.mp4";
-  //   vid.crossOrigin = "Anonymous";
-  //   vid.loop = true;
-  //   vid.play();
-  //   return vid;
-  // });
+
   return (
     <>
       <Canvas
@@ -90,22 +66,19 @@ export default function Home() {
           >
             <Plane args={[1, 2.3]}>
               <meshStandardMaterial attach="material" color="darkslateblue" />
-              {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
             </Plane>
           </mesh>
           {/* blue floor */}
           <mesh
             ref={ref}
-            scale={[1, 1, 1]}
+            scale={[1, 1.6, 1]}
             rotation={[11, 0, 1.5]}
             position={[-0.8, -0.99, 0.08]}
           >
             <Plane args={[1, 2.3]}>
               <meshStandardMaterial attach="material" color="darkslateblue" />
-              {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
             </Plane>
           </mesh>
-          {/* This mesh is the plane (The floor) */}
           {/* blue wall */}
           <mesh
             ref={ref}
@@ -115,26 +88,20 @@ export default function Home() {
           >
             <Plane args={[1, 2.3]}>
               <meshStandardMaterial attach="material" color="darkslateblue" />
-              {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
             </Plane>
           </mesh>
-          {/* <mesh
-            visible // object gets render if true
-            userData={{ test: "hello" }} // An object that can be used to store custom data about the Object3d
-            position={[0, 0, 0]} // The position on the canvas of the object [x,y,x]
-            rotation={[0, 0, 0]} // The rotation of the object
-            castShadow // Sets whether or not the object cats a shadow */}
-          {/* A spherical shape*/}
-          {/* <sphereGeometry attach="geometry" args={[1, 16, 200]} /> */}
-          {/* A standard mesh material*/}
-          {/* <meshStandardMaterial
-              attach="material" // How the element should attach itself to its parent
-              color="#7222D3" // The color of the material
-              transparent // Defines whether this material is transparent. This has an effect on rendering as transparent objects need special treatment and are rendered after non-transparent objects. When set to true, the extent to which the material is transparent is controlled by setting it's .opacity property.
-              roughness={0.1} // The roughness of the material - Defaults to 1
-              metalness={0.1} // The metalness of the material - Defaults to 0
-            /> */}
-          {/* </mesh> */}
+
+          {/* black box */}
+          <mesh
+            ref={ref}
+            scale={[0.3, 0.08, 0.08]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.95, 0.12, 0]}
+          >
+            <Box>
+              <meshBasicMaterial attach="material" color="black" />
+            </Box>
+          </mesh>
           {/*An ambient light that creates a soft light against the object */}
           <ambientLight intensity={0.5} />
           {/*An directional light which aims form the given position */}
@@ -142,25 +109,6 @@ export default function Home() {
           {/*An point light, basically the same as directional. This one points from under */}
           <pointLight position={[0, -10, 5]} intensity={1} />
           {/* We can use the drei Sphere which has a simple API. This sphere has a wobble material attached to it */}
-          {/* <Sphere visible position={[-3, 0, 0]} args={[1, 16, 200]}>
-            <MeshWobbleMaterial
-              attach="material"
-              color="#EB1E99"
-              factor={1} // Strength, 0 disables the effect (default=1)
-              speed={2} // Speed (default=1)
-              roughness={0}
-            />
-          </Sphere> */}
-          {/* This sphere has a distort material attached to it */}
-          {/* <Sphere visible position={[3, 0, 0]} args={[1, 16, 200]}>
-            <MeshDistortMaterial
-              color="#00A38D"
-              attach="material"
-              distort={0.5} // Strength, 0 disables the effect (default=1)
-              speed={2} // Speed (default=1)
-              roughness={0}
-            />
-          </Sphere> */}
           {/* title */}
           <mesh
             ref={ref}
@@ -185,24 +133,13 @@ export default function Home() {
             ref={ref}
             scale={[0.75, 0.45, 1]}
             rotation={[0, 1.5, 0]}
-            position={[-1.92, 0.55, 0]}
+            position={[-1.92, 0.43, 0]}
           >
             <planeBufferGeometry args={[1, 1]} />
             <meshBasicMaterial>
               <videoTexture attach="map" args={[video]} />
             </meshBasicMaterial>
           </mesh>
-          {/* <mesh
-            ref={ref}
-            scale={[0.5, 0.5, 0.5]}
-            rotation={[0, 0, 0]}
-            position={[0, 3, 1]}
-          >
-            <Plane args={[1, 2.3]}>
-              <meshBasicMaterial map={[video]} toneMapped={false} />
-              {/* <meshBasicMaterial attach="material" color="darkslateblue" /> */}
-          {/* </Plane>
-          </mesh> */}
           <GLTFModal
             scenePath="/jannotta_gallery/scene.gltf"
             position={[0, -1, 0]}
@@ -213,7 +150,7 @@ export default function Home() {
             ref={ref}
             scale={[2, 2, 2]}
             rotation={[0, 1.5, 0]}
-            position={[-1.94, 0, 0]}
+            position={[-1.94, -0.1359, 0]}
           >
             <GLTFModal
               scenePath="/television_wall-mounted/scene.gltf"
@@ -231,12 +168,12 @@ export default function Home() {
             <GLTFModal
               scenePath="/low_poly_girl/scene.gltf"
               position={[0, 0, 0]}
-              rotation={[0, 1.5, 0]}
               scale={[0.33, 0.33, 0.33]}
+              // rotation={[0.01, 0.01, 0.1]}
             />
           </mesh>
         </Suspense>
-        {/* autoRotate={true} enableZoom={false}Allows us to move the canvas around for different prespectives */}
+        {/* Allows us to move the canvas around for different prespectives */}
         <OrbitControls autoRotate={true} enableZoom={false} />
       </Canvas>
     </>
