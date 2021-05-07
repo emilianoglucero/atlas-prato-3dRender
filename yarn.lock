@@ -160,6 +160,11 @@
     "@react-spring/shared" "^9.1.0"
     "@react-spring/types" "^9.1.0"
 
+"@react-three/cannon@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@react-three/cannon/-/cannon-1.1.0.tgz#36fef4dc017716b8ddf32da54f761f24674fa5f6"
+  integrity sha512-aM9nKOv3G++27dD0ym2ILbb+jgNXK5szFS9RCkFO467xC2qhPqrUEx1NbuG+7HVolP2ba86OKzAedPQlN9OwgQ==
+
 "@react-three/drei@^2.2.10":
   version "2.2.22"
   resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-2.2.22.tgz#0ea91fe3f475436f9a3bb6ad5d11fd233aaabaee"

@@ -2,6 +2,7 @@ const withTM = require("next-transpile-modules")([
   "three",
   "@react-three/drei",
   "@react-three/fiber",
+  "@react-three/cannon",
 ]);
 
 module.exports = withTM();
