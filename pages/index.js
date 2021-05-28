@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import ReactDOM from "react-dom";
+import * as THREE from "three";
 import {
   MeshWobbleMaterial,
   MeshDistortMaterial,
@@ -11,30 +12,51 @@ import {
   Plane,
   MeshL,
   Box,
+  useTexture,
 } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+
 import { Suspense, useRef, useState } from "react";
 import { PlaneBufferGeometry, VideoTexture } from "three";
+import { a, useSpring, useTrail } from "@react-spring/three";
 import GLTFModal from "../components/GTLFModal";
+import { Lights } from "../components/Lights";
 
 function Loader() {
   const { active, progress, errors, item, loaded, total } = useProgress();
-  return <Html center>{progress} % modelo cargado</Html>;
+  return <Html center>{progress} %</Html>;
 }
 
 export default function Home() {
   const ref = useRef();
   const [video, setVideo] = useState();
-  React.useEffect(() => {
-    setVideo(() => {
-      const vid = document.createElement("video");
-      vid.src = "/AtlasPrato.mp4";
-      vid.crossOrigin = "Anonymous";
-      vid.loop = true;
-      vid.play();
-      return vid;
-    });
-  }, []);
+
+  // TO DO: check why video and react spring are not compatible
+
+  // React.useEffect(() => {
+  //   setVideo(() => {
+  //     const vid = document.createElement("video");
+  //     vid.src = "/AtlasPrato.mp4";
+  //     vid.crossOrigin = "Anonymous";
+  //     vid.loop = true;
+  //     vid.play();
+  //     return vid;
+  //   });
+  // }, []);
+
+  const props = useSpring({
+    from: { position: [-1, 0, 0] },
+    to: { position: [0.76, 0, 0] },
+    loop: { reverse: true },
+    delay: 3000,
+    config: {
+      duration: 8000,
+      mass: 1,
+      tension: 280,
+      friction: 120,
+    },
+  });
 
   return (
     <>
@@ -45,7 +67,7 @@ export default function Home() {
         camera={{ position: [1, 1.5, 1.5], fov: 60 }}
       >
         <Suspense fallback={<Loader />}>
-          {/*sistema de estrellas by drei*/}
+          {/*star system by drei*/}
           <Stars
             radius={100} // Radius of the inner sphere (default=100)
             depth={50} // Depth of area where stars should fit (default=50)
@@ -54,32 +76,10 @@ export default function Home() {
             saturation={0} // Saturation 0-1 (default=0)
             fade // Faded dots (default=false)
           />
-          {/* A light to help illumnate the spinning boxes */}
-          <pointLight position={[1, 1.3, 1]} intensity={0.5} />
-          <pointLight position={[0, 0, 0]} intensity={0.5} />
-          {/* blue wall */}
-          <mesh
-            ref={ref}
-            scale={[1, 0.9, 1]}
-            rotation={[0, 1.5, 0]}
-            position={[-1.94, 0, 0]}
-          >
-            <Plane args={[1, 2.3]}>
-              <meshStandardMaterial attach="material" color="darkslateblue" />
-            </Plane>
-          </mesh>
-          {/* blue floor */}
-          <mesh
-            ref={ref}
-            scale={[1, 1.6, 1]}
-            rotation={[11, 0, 1.5]}
-            position={[-0.8, -0.99, 0.08]}
-          >
-            <Plane args={[1, 2.3]}>
-              <meshStandardMaterial attach="material" color="darkslateblue" />
-            </Plane>
-          </mesh>
-          {/* blue wall */}
+
+          <Lights />
+
+          {/* blue paint wall */}
           <mesh
             ref={ref}
             scale={[1, 0.9, 1]}
@@ -91,24 +91,18 @@ export default function Home() {
             </Plane>
           </mesh>
 
-          {/* black box */}
+          {/* blue paint floor */}
           <mesh
             ref={ref}
-            scale={[0.3, 0.08, 0.08]}
-            rotation={[0, 1.5, 0]}
-            position={[-1.95, 0.12, 0]}
+            scale={[1, 1.6, 1]}
+            rotation={[11, 0, 1.5]}
+            position={[-0.8, -0.99, 0.08]}
           >
-            <Box>
-              <meshBasicMaterial attach="material" color="black" />
-            </Box>
+            <Plane args={[1, 2.3]}>
+              <meshStandardMaterial attach="material" color="darkslateblue" />
+            </Plane>
           </mesh>
-          {/*An ambient light that creates a soft light against the object */}
-          <ambientLight intensity={0.5} />
-          {/*An directional light which aims form the given position */}
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          {/*An point light, basically the same as directional. This one points from under */}
-          <pointLight position={[0, -10, 5]} intensity={1} />
-          {/* We can use the drei Sphere which has a simple API. This sphere has a wobble material attached to it */}
+
           {/* title */}
           <mesh
             ref={ref}
@@ -128,8 +122,9 @@ export default function Home() {
               <h3>ATLAS PRATO</h3>
             </Html>
           </mesh>
+
           {/* html video */}
-          <mesh
+          {/* <mesh
             ref={ref}
             scale={[0.75, 0.45, 1]}
             rotation={[0, 1.5, 0]}
@@ -137,15 +132,31 @@ export default function Home() {
           >
             <planeBufferGeometry args={[1, 1]} />
             <meshBasicMaterial>
-              <videoTexture attach="map" args={[video]} />
+              {/* <videoTexture attach="map" args={[video]} /> 
             </meshBasicMaterial>
-          </mesh>
+          </mesh> */}
+
+          {/*  main gallery model */}
           <GLTFModal
             scenePath="/jannotta_gallery/scene.gltf"
             position={[0, -1, 0]}
             rotation={[0.002, 0.01, 0]}
             scale={[0.33, 0.33, 0.33]}
           />
+
+          {/* black box */}
+          <mesh
+            ref={ref}
+            scale={[0.3, 0.08, 0.08]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.95, 0.12, 0]}
+          >
+            <Box>
+              <meshBasicMaterial attach="material" color="black" />
+            </Box>
+          </mesh>
+
+          {/* black television */}
           <mesh
             ref={ref}
             scale={[2, 2, 2]}
@@ -155,23 +166,20 @@ export default function Home() {
             <GLTFModal
               scenePath="/television_wall-mounted/scene.gltf"
               position={[0, 0.15, 0]}
-              rotation={[0, 1.5, 0]}
+              rotation={[0, 0, 0]}
               scale={[0.4, 0.4, 0.33]}
             />
           </mesh>
-          <mesh
-            ref={ref}
-            scale={[2.5, 2.9, 2.3]}
-            rotation={[0, 4.5, 0]}
-            position={[0, -1, 0.14]}
-          >
+
+          {/* girl walking */}
+          <a.mesh {...props}>
             <GLTFModal
-              scenePath="/low_poly_girl/scene.gltf"
-              position={[0, 0, 0]}
-              scale={[0.33, 0.33, 0.33]}
-              // rotation={[0.01, 0.01, 0.1]}
+              scenePath="/woman_walking/scene.gltf"
+              position={[0, -1, 0]}
+              rotation={[-1.6, 0, -1.3]}
+              scale={[0.001, 0.001, 0.001]}
             />
-          </mesh>
+          </a.mesh>
         </Suspense>
         {/* Allows us to move the canvas around for different prespectives */}
         <OrbitControls autoRotate={true} enableZoom={false} />
