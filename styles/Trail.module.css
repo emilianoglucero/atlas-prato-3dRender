@@ -1,0 +1,11 @@
+.title {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
+.button {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+}

@@ -1,0 +1,8 @@
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Saol Display Light Italic";
+  font-size: 158px;
+  padding: 124px;
+}
