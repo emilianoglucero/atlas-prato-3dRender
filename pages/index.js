@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import ReactDOM from "react-dom";
+import Image from "next/image";
 
 import { useState } from "react";
 import { MainScene } from "../components/MainScene";
@@ -66,6 +67,24 @@ export default function Home() {
                 className={styles.underline}
               ></animated.div>
             </div>
+          </div>
+          <div className={styles.mainphoto1}>
+            <Image
+              src="/images/rio.jpeg"
+              alt="prato en el rio"
+              width={460}
+              height={308}
+              layout="intrinsic"
+            />
+          </div>
+          <div className={styles.mainphoto2}>
+            <Image
+              src="/images/reci.jpeg"
+              alt="prato en el reci"
+              width={460}
+              height={308}
+              layout="intrinsic"
+            />
           </div>
         </div>
       )}

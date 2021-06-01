@@ -8,7 +8,7 @@ export const Trail = ({ style, children }) => {
     opacity: 1,
     y: 0,
     height: 110,
-    from: { opacity: 0, y: 50, height: 0 },
+    from: { opacity: 0, y: 60, height: 0 },
   });
   return (
     <div className={style}>
