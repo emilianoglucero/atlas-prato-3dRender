@@ -95,15 +95,15 @@ div#__next > div {
 
 @font-face {
   font-family: "Saol Display Light Italic";
-  src: url("//db.onlinewebfonts.com/t/c0de8fb6038e76e28f87f58c819bbda8.eot");
-  src: url("//db.onlinewebfonts.com/t/c0de8fb6038e76e28f87f58c819bbda8.eot?#iefix")
+  src: url("/fonts/@font-face/c0de8fb6038e76e28f87f58c819bbda8.eot");
+  src: url("/fonts/@font-face/c0de8fb6038e76e28f87f58c819bbda8.eot?#iefix")
       format("embedded-opentype"),
-    url("//db.onlinewebfonts.com/t/c0de8fb6038e76e28f87f58c819bbda8.woff2")
+    url("/fonts/@font-face/c0de8fb6038e76e28f87f58c819bbda8.woff2")
       format("woff2"),
-    url("//db.onlinewebfonts.com/t/c0de8fb6038e76e28f87f58c819bbda8.woff")
+    url("/fonts/@font-face/c0de8fb6038e76e28f87f58c819bbda8.woff")
       format("woff"),
-    url("//db.onlinewebfonts.com/t/c0de8fb6038e76e28f87f58c819bbda8.ttf")
+    url("/fonts/@font-face/c0de8fb6038e76e28f87f58c819bbda8.ttf")
       format("truetype"),
-    url("//db.onlinewebfonts.com/t/c0de8fb6038e76e28f87f58c819bbda8.svg#Saol Display Light Italic")
+    url("/fonts/@font-face/c0de8fb6038e76e28f87f58c819bbda8.svg#Saol Display Light Italic")
       format("svg");
 }

@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import ReactDOM from "react-dom";
 import Image from "next/image";
+import Head from "next/head";
 
 import { useState } from "react";
 import { MainScene } from "../components/MainScene";
@@ -38,6 +39,17 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>Atlas Prato</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link
+          rel="preload"
+          href="/fonts/@font-face/c0de8fb6038e76e28f87f58c819bbda8.eot"
+          as="font"
+          crossOrigin=""
+        />
+      </Head>
       {start ? (
         <MainScene />
       ) : (
