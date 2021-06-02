@@ -11,12 +11,12 @@ export const Trail = ({ style, children }) => {
     from: { opacity: 0, y: 60, height: 0 },
   });
   return (
-    <div className={style}>
+    <span className={style}>
       {trail.map(({ height, ...style }, index) => (
-        <animated.div key={index} style={style}>
-          <animated.div style={{ height }}>{items[index]}</animated.div>
-        </animated.div>
+        <animated.span key={index} style={style}>
+          <animated.span style={{ height }}>{items[index]}</animated.span>
+        </animated.span>
       ))}
-    </div>
+    </span>
   );
 };

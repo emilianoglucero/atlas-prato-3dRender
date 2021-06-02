@@ -8,6 +8,7 @@ import { MainScene } from "../components/MainScene";
 import styles from "../styles/Home.module.css";
 import { useSpring, animated } from "@react-spring/web";
 import { Trail } from "../components/Trail";
+import Images from "../components/Images";
 export default function Home() {
   const [start, setStart] = useState(false);
   const [toggle, setToggle] = useState(false);
@@ -21,13 +22,27 @@ export default function Home() {
     config: { duration: 400 },
   });
 
+  const imgstyles = useSpring({
+    from: { opacity: "0", x: 100 },
+    to: {
+      opacity: "1",
+      x: 0,
+    },
+    config: {
+      duration: 400,
+      mass: 1,
+      tension: 1000,
+      friction: 100,
+    },
+  });
+
   return (
     <>
       {start ? (
         <MainScene />
       ) : (
         <div className={styles.wrapper}>
-          <div>
+          <div className={styles.title}>
             <Trail style={styles.trailtitle}>
               <span>A</span>
               <span>t</span>
@@ -42,8 +57,6 @@ export default function Home() {
               <span>o</span>
             </Trail>
           </div>
-
-          {/* <p className={styles.title}>Atlas Prato</p> */}
           <div
             className={styles.button}
             onMouseEnter={(e) => setToggle(true)}
@@ -61,14 +74,20 @@ export default function Home() {
               <span>r</span>
             </Trail>
             {/* <p>Comenzar</p> */}
-            <div>
+            {/* <div>
               <animated.div
                 style={props}
                 className={styles.underline}
               ></animated.div>
-            </div>
+            </div> */}
           </div>
-          <div className={styles.mainphoto1}>
+          <div className={styles.underlinediv}>
+            <animated.div
+              style={props}
+              className={styles.underline}
+            ></animated.div>
+          </div>
+          <animated.div className={styles.mainphoto1} style={imgstyles}>
             <Image
               src="/images/rio.jpeg"
               alt="prato en el rio"
@@ -76,8 +95,9 @@ export default function Home() {
               height={308}
               layout="intrinsic"
             />
-          </div>
-          <div className={styles.mainphoto2}>
+            {/* <Images /> */}
+          </animated.div>
+          <animated.div className={styles.mainphoto2} style={imgstyles}>
             <Image
               src="/images/reci.jpeg"
               alt="prato en el reci"
@@ -85,7 +105,8 @@ export default function Home() {
               height={308}
               layout="intrinsic"
             />
-          </div>
+            {/* <Images /> */}
+          </animated.div>
         </div>
       )}
     </>

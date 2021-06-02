@@ -46,7 +46,12 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
-  font-family: "Azo Sans", sans-serif;
+  cursor: url("/images/ellipse.svg"), pointer;
+  cursor: -webkit-image-set(
+      url("/images/ellipse.svg") 1x,
+      url("/images/ellipse.svg") 2x
+    ),
+    pointer;
 }
 /* A elements that don't have a class get default styles */
 a:not([class]) {
