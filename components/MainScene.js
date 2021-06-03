@@ -3,13 +3,14 @@ import { Canvas } from "@react-three/fiber";
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import GLTFModal from "./GTLFModal";
 import { Lights } from "./Lights";
-import { a, useSpring } from "@react-spring/three";
+import { a, config, useSpring } from "@react-spring/three";
 import { Loader } from "./Loader";
 
 export const MainScene = () => {
   const ref = useRef();
 
-  const props = useSpring({
+  // gir walk react spring animation
+  const girlwalk = useSpring({
     from: { position: [-1, 0, 0] },
     to: { position: [0.76, 0, 0] },
     loop: { reverse: true },
@@ -22,6 +23,7 @@ export const MainScene = () => {
     },
   });
 
+  // video setup
   const [video] = useState(() => {
     const vid = document.createElement("video");
     vid.src = "/AtlasPrato-min.mp4";
@@ -31,6 +33,32 @@ export const MainScene = () => {
   });
   // Keep in mind videos can only play once the user has interacted with the site ...
   useEffect(() => void video.play(), [video]);
+
+  // tv react spring animation
+  const [hovered, setHover] = useState(false);
+
+  const tvanimation = useSpring({
+    scale: hovered ? [1.6, 1.6, 1.6] : [1, 1, 1],
+    position: hovered ? [1.5, 0, 0] : [0, 0, 0],
+    config: config.wobbly,
+  });
+
+  // blackbox react spring animation
+  const [hoveredBox, setHoverBox] = useState(false);
+
+  const blackbox = useSpring({
+    scale: hoveredBox ? [0.6, 0.16, 0.16] : [0.3, 0.08, 0.08],
+    position: hoveredBox ? [-1.7, 0.12, 0] : [-1.93, 0.12, 0],
+    rotation: [0, 1.5, 0],
+    config: config.wobbly,
+  });
+
+  // useEffect(() => {
+  //   document.body.style.cursor = hovered && "pointer";
+  // }, [hovered, hoveredBox]);
+  // scale={[0.3, 0.08, 0.08]}
+  // rotation={[0, 1.5, 0]}
+  // position={[-1.95, 0.12, 0]}
 
   return (
     <Canvas
@@ -51,30 +79,31 @@ export const MainScene = () => {
         />
 
         <Lights />
+        <group>
+          {/* blue paint wall */}
+          <mesh
+            ref={ref}
+            scale={[1, 0.9, 1]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.94, 0, 0]}
+          >
+            <Plane args={[1, 2.3]}>
+              <meshStandardMaterial attach="material" color="darkslateblue" />
+            </Plane>
+          </mesh>
 
-        {/* blue paint wall */}
-        <mesh
-          ref={ref}
-          scale={[1, 0.9, 1]}
-          rotation={[0, 1.5, 0]}
-          position={[-1.94, 0, 0]}
-        >
-          <Plane args={[1, 2.3]}>
-            <meshStandardMaterial attach="material" color="darkslateblue" />
-          </Plane>
-        </mesh>
-
-        {/* blue paint floor */}
-        <mesh
-          ref={ref}
-          scale={[1, 1.6, 1]}
-          rotation={[11, 0, 1.5]}
-          position={[-0.8, -0.99, 0.08]}
-        >
-          <Plane args={[1, 2.3]}>
-            <meshStandardMaterial attach="material" color="darkslateblue" />
-          </Plane>
-        </mesh>
+          {/* blue paint floor */}
+          <mesh
+            ref={ref}
+            scale={[1, 1.6, 1]}
+            rotation={[11, 0, 1.5]}
+            position={[-0.8, -0.99, 0.08]}
+          >
+            <Plane args={[1, 2.3]}>
+              <meshStandardMaterial attach="material" color="darkslateblue" />
+            </Plane>
+          </mesh>
+        </group>
 
         {/* title */}
         <mesh
@@ -96,19 +125,6 @@ export const MainScene = () => {
           </Html>
         </mesh>
 
-        {/* html video */}
-        <mesh
-          ref={ref}
-          scale={[0.75, 0.45, 1]}
-          rotation={[0, 1.5, 0]}
-          position={[-1.92, 0.43, 0]}
-        >
-          <planeBufferGeometry args={[1, 1]} />
-          <meshBasicMaterial>
-            <videoTexture attach="map" args={[video]} />
-          </meshBasicMaterial>
-        </mesh>
-
         {/*  main gallery model */}
         <GLTFModal
           scenePath="/jannotta_gallery/scene.gltf"
@@ -118,34 +134,59 @@ export const MainScene = () => {
         />
 
         {/* black box */}
-        <mesh
+        <a.mesh
           ref={ref}
-          scale={[0.3, 0.08, 0.08]}
-          rotation={[0, 1.5, 0]}
-          position={[-1.95, 0.12, 0]}
+          // scale={[0.3, 0.08, 0.08]}
+          // rotation={[0, 1.5, 0]}
+          // position={[-1.95, 0.12, 0]}
+          {...blackbox}
+          onPointerOver={(e) => setHoverBox(true)}
+          onPointerOut={(e) => setHoverBox(false)}
         >
           <Box>
             <meshBasicMaterial attach="material" color="black" />
           </Box>
-        </mesh>
+        </a.mesh>
 
-        {/* black television */}
-        <mesh
+        <a.group
           ref={ref}
-          scale={[2, 2, 2]}
-          rotation={[0, 1.5, 0]}
-          position={[-1.94, -0.1359, 0]}
+          {...tvanimation}
+          onPointerOver={(e) => setHover(true)}
+          onPointerOut={(e) => setHover(false)}
         >
-          <GLTFModal
-            scenePath="/television_wall-mounted/scene.gltf"
-            position={[0, 0.15, 0]}
-            rotation={[0, 0, 0]}
-            scale={[0.4, 0.4, 0.33]}
-          />
-        </mesh>
+          {/* black television */}
+          <mesh
+            ref={ref}
+            //scale={[2, 2, 2]}
+            scale={[2, 2, 2]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.94, -0.1359, 0]}
+          >
+            >
+            <GLTFModal
+              scenePath="/television_wall-mounted/scene.gltf"
+              position={[0, 0.15, 0]}
+              rotation={[0, 0, 0]}
+              scale={[0.4, 0.4, 0.33]}
+            />
+          </mesh>
+
+          {/* html video */}
+          <mesh
+            ref={ref}
+            scale={[0.75, 0.45, 1]}
+            rotation={[0, 1.5, 0]}
+            position={[-1.92, 0.43, 0]}
+          >
+            <planeBufferGeometry args={[1, 1]} />
+            <meshBasicMaterial>
+              <videoTexture attach="map" args={[video]} />
+            </meshBasicMaterial>
+          </mesh>
+        </a.group>
 
         {/* girl walking */}
-        <a.mesh {...props}>
+        <a.mesh {...girlwalk}>
           <GLTFModal
             scenePath="/woman_walking/scene.gltf"
             position={[0, -1, 0]}
@@ -155,7 +196,7 @@ export const MainScene = () => {
         </a.mesh>
       </Suspense>
       {/* autoRotate={true} enableZoom={false} Allows us to move the canvas around for different prespectives */}
-      <OrbitControls enableZoom={false} />
+      <OrbitControls />
     </Canvas>
   );
 };

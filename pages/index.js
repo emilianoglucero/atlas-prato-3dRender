@@ -7,13 +7,13 @@ import { useState } from "react";
 import { MainScene } from "../components/MainScene";
 
 import styles from "../styles/Home.module.css";
-import { useSpring, animated } from "@react-spring/web";
+import { useSpring, animated, useSpringRef, useChain } from "@react-spring/web";
 import { Trail } from "../components/Trail";
 import Images from "../components/Images";
 export default function Home() {
   const [start, setStart] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const props = useSpring({
+  const underlineanimation = useSpring({
     from: { opacity: "0" },
     to: {
       opacity: toggle ? "1" : "0",
@@ -23,20 +23,21 @@ export default function Home() {
     config: { duration: 400 },
   });
 
-  const imgstyles = useSpring({
-    from: { opacity: "0", x: 100 },
+  const imganimation = useSpring({
+    from: { opacity: "0", x: 250 },
     to: {
       opacity: "1",
       x: 0,
     },
     config: {
-      duration: 400,
+      duration: 850,
       mass: 1,
       tension: 1000,
       friction: 100,
     },
   });
 
+  // useChain([imgRef, trailRef])
   return (
     <>
       <Head>
@@ -95,11 +96,11 @@ export default function Home() {
           </div>
           <div className={styles.underlinediv}>
             <animated.div
-              style={props}
+              style={underlineanimation}
               className={styles.underline}
             ></animated.div>
           </div>
-          <animated.div className={styles.mainphoto1} style={imgstyles}>
+          <animated.div className={styles.mainphoto1} style={imganimation}>
             <Image
               src="/images/rio.jpeg"
               alt="prato en el rio"
@@ -109,7 +110,7 @@ export default function Home() {
             />
             {/* <Images /> */}
           </animated.div>
-          <animated.div className={styles.mainphoto2} style={imgstyles}>
+          <animated.div className={styles.mainphoto2} style={imganimation}>
             <Image
               src="/images/reci.jpeg"
               alt="prato en el reci"
