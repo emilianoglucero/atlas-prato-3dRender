@@ -4,12 +4,12 @@ import Image from "next/image";
 import Head from "next/head";
 
 import { useState } from "react";
-import { MainScene } from "../components/MainScene";
 
 import styles from "../styles/Home.module.css";
 import { useSpring, animated, useSpringRef, useChain } from "@react-spring/web";
 import { Trail } from "../components/Trail";
 import Images from "../components/Images";
+import MainScene from "../components/MainScene";
 export default function Home() {
   const [start, setStart] = useState(false);
   const [toggle, setToggle] = useState(false);

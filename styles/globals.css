@@ -52,6 +52,8 @@ body {
       url("/images/ellipse.svg") 2x
     ),
     pointer;
+
+  font-family: "Saol Display Light Italic";
 }
 /* A elements that don't have a class get default styles */
 a:not([class]) {
