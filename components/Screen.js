@@ -4,7 +4,7 @@ import GLTFModal from "./GTLFModal";
 
 export const Screen = ({ hoveredScreen }) => {
   const ref = useRef();
-  console.log(hoveredScreen);
+  // console.log(hoveredScreen);
 
   const tvanimation = useSpring({
     scale: hoveredScreen ? [1.6, 1.6, 1.6] : [1, 1, 1],

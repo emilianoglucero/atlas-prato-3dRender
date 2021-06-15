@@ -3,7 +3,7 @@ import { a, config, useSpring } from "@react-spring/three";
 import { Box } from "@react-three/drei";
 
 export const BlackBox = ({ hoveredBox }) => {
-  console.log(hoveredBox);
+  // console.log(hoveredBox);
   const ref = useRef();
 
   const blackbox = useSpring({

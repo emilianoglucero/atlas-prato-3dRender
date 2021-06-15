@@ -99,7 +99,6 @@ const MainScene = () => {
           <MenuElement
             text={<span>Secciones de la obra</span>}
             color="white"
-            args={[0.15, 0.2, 1.5]}
             position={[-1.6, 1.4, 2.5]}
             scale={[0.15, 0.15, 0.15]}
           />
@@ -110,7 +109,6 @@ const MainScene = () => {
             <MenuElement
               text={<span>Pantalla</span>}
               color="lightblue"
-              args={[0.15, 0.2, 1]}
               position={[-1.6, 0.8, 2.5]}
               scale={[0.12, 0.12, 0.12]}
             />
@@ -122,7 +120,6 @@ const MainScene = () => {
             <MenuElement
               text={<span>Caja</span>}
               color="lightblue"
-              args={[0.15, 0.2, 1]}
               position={[-1.6, 0.2, 2.5]}
               scale={[0.12, 0.12, 0.12]}
             />
@@ -134,7 +131,6 @@ const MainScene = () => {
             <MenuElement
               text={<span>Zona delimitada</span>}
               color="lightblue"
-              args={[0.15, 0.2, 1]}
               position={[-1.6, -0.4, 2.5]}
               scale={[0.12, 0.12, 0.12]}
             />
