@@ -19,6 +19,9 @@ import MenuElement from "./MenuElement";
 import { Screen } from "./Screen";
 import { BlackBox } from "./BlackBox";
 import { WalkingZone } from "./WalkingZone";
+import BlackBoxMenuElement from "./BlackBoxMenuElement";
+import WalkingZoneMenuElement from "./WalkingZoneMenuElement";
+import ScreenMenuElement from "./ScreenMenuElement";
 
 const MainScene = () => {
   const ref = useRef();
@@ -106,7 +109,7 @@ const MainScene = () => {
             onPointerOver={(e) => setHoverScreen(true)}
             onPointerOut={(e) => setHoverScreen(false)}
           >
-            <MenuElement
+            <ScreenMenuElement
               text={<span>Pantalla</span>}
               color="lightblue"
               position={[-1.6, 0.8, 2.5]}
@@ -117,7 +120,7 @@ const MainScene = () => {
             onPointerOver={(e) => setHoverBox(true)}
             onPointerOut={(e) => setHoverBox(false)}
           >
-            <MenuElement
+            <BlackBoxMenuElement
               text={<span>Caja</span>}
               color="lightblue"
               position={[-1.6, 0.2, 2.5]}
@@ -128,7 +131,7 @@ const MainScene = () => {
             onPointerOver={(e) => setHoverZone(true)}
             onPointerOut={(e) => setHoverZone(false)}
           >
-            <MenuElement
+            <WalkingZoneMenuElement
               text={<span>Zona delimitada</span>}
               color="lightblue"
               position={[-1.6, -0.4, 2.5]}

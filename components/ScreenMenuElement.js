@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useState } from "react";
 import * as THREE from "three";
 
-function MenuElement({ text, color, args, ...props }) {
+function ScreenMenuElement({ text, color, args, ...props }) {
   const vec = new THREE.Vector3();
   const [hovered, setHover] = useState(false);
   const [zoom, set] = useState(false);
@@ -77,7 +77,7 @@ function MenuElement({ text, color, args, ...props }) {
             rotation={[0, 1, 0]}
           >
             {/* <boxGeometry args={args} /> */}
-            <meshStandardMaterial color={hovered ? "darkslateblue" : color} />
+            <meshStandardMaterial color={hovered ? color : "white"} />
             <Html
               // distanceFactor={50}
               transform={true}
@@ -99,4 +99,4 @@ function MenuElement({ text, color, args, ...props }) {
   );
 }
 
-export default MenuElement;
+export default ScreenMenuElement;

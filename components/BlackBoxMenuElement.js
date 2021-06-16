@@ -1,9 +1,9 @@
-import { Plane, Html } from "@react-three/drei";
+import { Html, Plane } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useState } from "react";
 import * as THREE from "three";
 
-function MenuElement({ text, color, args, ...props }) {
+function BlackBoxMenuElement({ text, color, args, ...props }) {
   const vec = new THREE.Vector3();
   const [hovered, setHover] = useState(false);
   const [zoom, set] = useState(false);
@@ -17,7 +17,7 @@ function MenuElement({ text, color, args, ...props }) {
       step
     );
     state.camera.position.lerp(
-      vec.set(zoom ? 20 : 2.2, zoom ? 1 : 1, zoom ? -3 : 4),
+      vec.set(zoom ? 10 : 2.2, zoom ? -2 : 1, zoom ? 1 : 4),
       step
     );
     //state.camera.rotation.x += 0.01;
@@ -69,21 +69,21 @@ function MenuElement({ text, color, args, ...props }) {
           onPointerOut={(e) => setHover(false)}
         >
           <Plane
-            color="darkslateblue"
-            args={[1.5, 3, 3]}
+            color="hotpink"
+            args={[1.2, 2.7]}
             position={[-0.6, 0.4, -1.8]}
             scale={[0.32, 0.32, 0.32]}
             //   scale={[0.15, 0.15, 0.15]}
             rotation={[0, 1, 0]}
           >
             {/* <boxGeometry args={args} /> */}
-            <meshStandardMaterial color={hovered ? "darkslateblue" : color} />
+            <meshStandardMaterial color={hovered ? color : "white"} />
             <Html
               // distanceFactor={50}
               transform={true}
               style={{
                 transition: "all 0.2s",
-                fontSize: "38px",
+                fontSize: "28px",
               }}
               as="div"
               position={[0, 0, 0]}
@@ -99,4 +99,4 @@ function MenuElement({ text, color, args, ...props }) {
   );
 }
 
-export default MenuElement;
+export default BlackBoxMenuElement;
