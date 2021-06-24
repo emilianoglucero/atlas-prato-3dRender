@@ -2,12 +2,18 @@ import { Html, Plane } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useState } from "react";
 import * as THREE from "three";
+import { useStore } from "./MenuContext";
 
-function WalkingZoneMenuElement({ text, color, args, ...props }) {
+function WalkingZoneMenuElement({ text, color, args, setHoverZone, ...props }) {
   const vec = new THREE.Vector3();
   const [hovered, setHover] = useState(false);
   const [zoom, set] = useState(false);
-  console.log(zoom);
+  // console.log(zoom);
+
+  const menuDisplay = useStore((state) => state.menuDisplay);
+  const toggleMenuElementDisplay = useStore(
+    (state) => state.toggleMenuElementDisplay
+  );
 
   useFrame((state) => {
     const step = 0.1;
@@ -36,7 +42,13 @@ function WalkingZoneMenuElement({ text, color, args, ...props }) {
           args={[2, 3.7]}
           onPointerOver={(e) => setHover(true)}
           onPointerOut={(e) => setHover(false)}
-          onClick={() => set(!zoom)}
+          onClick={() => {
+            console.log("onclick walkin");
+            set(!zoom);
+            setHoverZone(false);
+            toggleMenuElementDisplay();
+          }}
+          // onClick={toggleMenuElementDisplay}
           //   scale={[0.15, 0.15, 0.15]}
           rotation={[0, 1, 0]}
         >
@@ -64,6 +76,8 @@ function WalkingZoneMenuElement({ text, color, args, ...props }) {
           onClick={() => {
             set(!zoom);
             setHover(!hovered);
+            setHoverZone(false);
+            toggleMenuElementDisplay();
           }}
           onPointerOver={(e) => setHover(true)}
           onPointerOut={(e) => setHover(false)}

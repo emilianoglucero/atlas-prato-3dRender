@@ -3,11 +3,11 @@ import { useFrame } from "@react-three/fiber";
 import { useState } from "react";
 import * as THREE from "three";
 
-function ScreenMenuElement({ text, color, args, ...props }) {
+function ScreenMenuElement({ text, color, args, setHoverScreen, ...props }) {
   const vec = new THREE.Vector3();
   const [hovered, setHover] = useState(false);
   const [zoom, set] = useState(false);
-  console.log(zoom);
+  // console.log(zoom);
 
   useFrame((state) => {
     const step = 0.1;
@@ -36,7 +36,10 @@ function ScreenMenuElement({ text, color, args, ...props }) {
           args={[2, 3.7]}
           onPointerOver={(e) => setHover(true)}
           onPointerOut={(e) => setHover(false)}
-          onClick={() => set(!zoom)}
+          onClick={() => {
+            set(!zoom);
+            setHoverScreen(false);
+          }}
           //   scale={[0.15, 0.15, 0.15]}
           rotation={[0, 1, 0]}
         >
@@ -64,6 +67,7 @@ function ScreenMenuElement({ text, color, args, ...props }) {
           onClick={() => {
             set(!zoom);
             setHover(!hovered);
+            setHoverScreen(false);
           }}
           onPointerOver={(e) => setHover(true)}
           onPointerOut={(e) => setHover(false)}

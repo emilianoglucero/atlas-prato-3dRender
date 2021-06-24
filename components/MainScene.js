@@ -8,7 +8,13 @@ import {
   Stars,
 } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, {
+  Suspense,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import GLTFModal from "./GTLFModal";
 import { Lights } from "./Lights";
 import { a, config, useSpring } from "@react-spring/three";
@@ -22,15 +28,19 @@ import { WalkingZone } from "./WalkingZone";
 import BlackBoxMenuElement from "./BlackBoxMenuElement";
 import WalkingZoneMenuElement from "./WalkingZoneMenuElement";
 import ScreenMenuElement from "./ScreenMenuElement";
+import { Menu } from "./Menu";
 
 const MainScene = () => {
+  const value = true;
   const ref = useRef();
 
-  // blackbox hover animation state
+  // blackbox react spring hover animation
   const [hoveredBox, setHoverBox] = useState(false);
-  // tv screen spring hover animation
+  // tv screen react spring hover animation
   const [hoveredScreen, setHoverScreen] = useState(false);
+  // walking zone react spring hover animation
   const [hoveredZone, setHoverZone] = useState(false);
+
   // gir walk react spring animation
   const girlwalk = useSpring({
     from: { position: [-1, 0, 0] },
@@ -45,8 +55,6 @@ const MainScene = () => {
     },
   });
 
-  const [zoom, set] = useState(true);
-
   return (
     <>
       <Canvas
@@ -55,6 +63,7 @@ const MainScene = () => {
         shadowMap
         camera={{ position: [1, 1.5, 1.5], fov: 60 }}
       >
+        {/* <ContextBridge> */}
         <Suspense fallback={<Loader />}>
           {/*star system by drei*/}
           <Stars
@@ -99,49 +108,18 @@ const MainScene = () => {
               scale={[0.01, 0.01, 0.01]}
             />
           </a.mesh> */}
-          <MenuElement
-            text={<span>Secciones de la obra</span>}
-            color="white"
-            position={[-1.6, 1.4, 2.5]}
-            scale={[0.15, 0.15, 0.15]}
-          />
-          <mesh
-            onPointerOver={(e) => setHoverScreen(true)}
-            onPointerOut={(e) => setHoverScreen(false)}
-          >
-            <ScreenMenuElement
-              text={<span>Pantalla</span>}
-              color="lightblue"
-              position={[-1.6, 0.8, 2.5]}
-              scale={[0.12, 0.12, 0.12]}
+          {value && (
+            <Menu
+              setHoverBox={setHoverBox}
+              setHoverScreen={setHoverScreen}
+              setHoverZone={setHoverZone}
             />
-          </mesh>
-          <mesh
-            onPointerOver={(e) => setHoverBox(true)}
-            onPointerOut={(e) => setHoverBox(false)}
-          >
-            <BlackBoxMenuElement
-              text={<span>Caja</span>}
-              color="lightblue"
-              position={[-1.6, 0.2, 2.5]}
-              scale={[0.12, 0.12, 0.12]}
-            />
-          </mesh>
-          <mesh
-            onPointerOver={(e) => setHoverZone(true)}
-            onPointerOut={(e) => setHoverZone(false)}
-          >
-            <WalkingZoneMenuElement
-              text={<span>Zona delimitada</span>}
-              color="lightblue"
-              position={[-1.6, -0.4, 2.5]}
-              scale={[0.12, 0.12, 0.12]}
-            />
-          </mesh>
+          )}
         </Suspense>
         {/* autoRotate={true} enableZoom={false} Allows us to move the canvas around for different prespectives */}
         <OrthographicCamera />
         {/* <OrbitControls /> */}
+        {/* </ContextBridge> */}
       </Canvas>
     </>
   );

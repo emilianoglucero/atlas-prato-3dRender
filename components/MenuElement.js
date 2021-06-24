@@ -36,7 +36,9 @@ function MenuElement({ text, color, args, ...props }) {
           args={[2, 3.7]}
           onPointerOver={(e) => setHover(true)}
           onPointerOut={(e) => setHover(false)}
-          onClick={() => set(!zoom)}
+          onClick={() => {
+            set(!zoom);
+          }}
           //   scale={[0.15, 0.15, 0.15]}
           rotation={[0, 1, 0]}
         >
